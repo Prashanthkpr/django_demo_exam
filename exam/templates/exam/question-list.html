@@ -1,0 +1,51 @@
+{% extends './base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+	<a href="{% url 'exam:create_question' %}" class="create_question btn btn-success glyphicon glyphicon-plus" style="float:right;"></a>
+	<table class='table table-striped'>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Choice</th>
+				<th>Update Date</th>
+				<th>Action</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for question in questions %}
+				<tr>
+					<td><a href="{% url 'exam:update_question' question.id %}">{{ question.name }}</a></td>
+					<td>{{ question.choice|default_if_none:" - " }}</td>
+					<td>{{ question.update_date }}</td>
+					<td>
+						<button class="btn delete_question glyphicon glyphicon-trash" question-url="{% url 'exam:delete_question'  question.id %}">
+                        </button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<script type="text/javascript">
+		$( document ).ready(function() {
+		    $('.delete_question').on('click', function(e){
+		    	e.preventDefault()
+		    	var question_url = $(this).attr("question-url")
+		    	console.log(question_url)
+		    	$.ajax({
+		    		url: question_url,
+		    		type:"post",
+		    		success: function(result){
+		    			if (result.success){
+		    				alert(result.message)
+		    			}
+		    			else{
+		    				alert(result.message)
+		    			}
+				 }});
+		    })
+		});
+	</script>
+{% endblock %}

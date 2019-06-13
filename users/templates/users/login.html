@@ -1,0 +1,22 @@
+{% extends './base.html' %}
+
+{% block content %}
+	<h3 class="heading">Login</h3>
+	<form class="form-horizontal" action="." method="post">
+		{% csrf_token %}
+		{% if errors %}
+			<div class="errorlist">
+				<p>{{ errors }}</p>
+			</div>
+		{% endif %}
+		{{ login_form.as_p }}
+		<div class="" style="text-align:center;">
+			<button class="btn btn-default" type="reset">Clear</button>
+			<button class="btn btn-primary" type="submit">Login</button>
+		</div>
+	</form>
+	<div>
+		<span style="float:right">Not Registered?. <a href="{% url 'users:register' %}">Register</a></span>
+	</div>
+
+{% endblock %}
